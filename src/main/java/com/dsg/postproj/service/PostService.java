@@ -25,7 +25,7 @@ public interface PostService {
 
     void create(PostDTO postDto, String email);
 
-    void update(Long id, @Valid PostDTO postDto);
+    void update(Long id, PostDTO postDto, String email);
 
     void delete(Long id);
 }

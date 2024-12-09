@@ -44,8 +44,13 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @Valid @RequestBody PostDTO postDto) {
-        postService.update(id, postDto);
+    public ResponseEntity<Map<String, Object>> update(
+            @PathVariable Long id,
+            @Valid @RequestBody PostDTO postDto,
+            @AuthenticationPrincipal MemberDTO memberDTO
+            ) {
+        log.info("post update memberDTO = {}", memberDTO);
+        postService.update(id, postDto, memberDTO.getEmail());
         return ResponseEntity.ok(Map.of("result", "updated"));
     }
 

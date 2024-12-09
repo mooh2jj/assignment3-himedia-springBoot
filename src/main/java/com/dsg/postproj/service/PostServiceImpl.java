@@ -34,14 +34,13 @@ public class PostServiceImpl implements PostService {
     public PostDTO getOne(Long id) {
         return postRepository.findById(id)
                 .map(this::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시글이 없습니다. id=" + id));
     }
 
     @Override
     public void create(PostDTO postDto, String email) {
 
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회원이 없습니다. email=" + email));
+        Member member = this.getMember(email);
 
         Post post = Post.builder()
                 .title(postDto.getTitle())
@@ -52,16 +51,25 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
     }
 
-    @Override
-    public void update(Long id, PostDTO postDto) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
-        post.update(postDto.getTitle(), postDto.getContent());
+    @Override
+    public void update(Long id, PostDTO postDto, String email) {
+
+        Member member = this.getMember(email);
+
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시글이 없습니다. id=" + id));
+
+        post.update(postDto.getTitle(), postDto.getContent(), member);
     }
 
     @Override
     public void delete(Long id) {
         postRepository.deleteById(id);
+    }
+
+    private Member getMember(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원이 없습니다. email=" + email));
     }
 }
