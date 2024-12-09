@@ -47,6 +47,16 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public boolean checkEmail(String email) {
+        boolean result = false;
+        if (memberRepository.findByEmail(email).isPresent()) {
+            result = true;
+        }
+        return result;
+    }
+
     @Override
     public Map<String, Object> login(String email, String password) {
 
@@ -71,4 +81,6 @@ public class MemberServiceImpl implements MemberService {
 
         return claims;
     }
+
+
 }

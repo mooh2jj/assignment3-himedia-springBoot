@@ -32,6 +32,13 @@ public class MemberController {
         return ResponseEntity.ok(Map.of("result", "success"));
     }
 
+    // check-email
+    @GetMapping("/check-email")
+    public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam String email) {
+        boolean result = memberService.checkEmail(email);
+        return ResponseEntity.ok(Map.of("result", result));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse response) {
         Map<String, Object> loginClaims = memberService.login(loginDTO.getEmail(), loginDTO.getPassword());
