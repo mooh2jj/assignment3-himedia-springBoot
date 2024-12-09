@@ -5,12 +5,14 @@ import LoginPage from "./pages/member/LoginPage";
 import CreatePage from "./pages/post/CreatePage";
 import ReadPage from "./pages/post/ReadPage";
 import JoinPage from "./pages/member/JoinPage";
+import ListPage from "./pages/post/ListPage";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/post/list" element={<ListPage />} />
         <Route path="/post/:id" element={<ReadPage />} />
         <Route path="/post/create" element={<CreatePage />} />
         <Route path="/member/join" element={<JoinPage />} />

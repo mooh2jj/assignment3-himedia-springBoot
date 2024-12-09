@@ -19,8 +19,8 @@ const CreatePage = () => {
     axiosInstance
       .post("/post", post)
       .then((res) => {
-        console.log(res.data);
-        navigate("/");
+        console.log("create post res.data: ", res.data);
+        navigate("/post/list");
       })
       .catch((err) => {
         console.log(err);

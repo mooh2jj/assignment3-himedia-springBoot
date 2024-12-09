@@ -21,8 +21,8 @@ const loginSlice = createSlice({
       return { ...initState };
     },
     setAccessToken: (state, action) => {
-      console.log("setAccessToken: accessToken: {}", action.payload);
-      state.accessToken = action.payload;
+      console.log("setAccessToken: accessToken: ", action.payload);
+      state.accessToken = action.payload; // draft만 수정 할 것!
     },
   },
 });

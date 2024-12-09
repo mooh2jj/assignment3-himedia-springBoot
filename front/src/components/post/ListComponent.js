@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
-// api http://localhost:8083/api/post/list
+import axiosInstance from "../../api/axiosInstance";
 
 const ListComponent = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8083/api/post/list").then((res) => {
+    axiosInstance.get("/post/list").then((res) => {
       setPosts(res.data);
     });
   }, []);
 
   return (
     <>
-      <ul>
+      <ul style={{ listStyle: "none", padding: "0" }}>
         {posts.map((post) => (
-          <li key={post.id}>
+          <li key={post.id} style={{ padding: "10px 0" }}>
             <Link to={`/post/${post.id}`}>
-              {post.title} | {post.author} | {post.createdAt} |{" "}
+              {post.id} | {post.title} | {post.author} | {post.createdAt} |{" "}
               {post.modifiedAt}
             </Link>
           </li>

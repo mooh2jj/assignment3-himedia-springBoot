@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../components/layouts/Header";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const JoinPage = () => {
   const navigate = useNavigate();
@@ -9,7 +9,9 @@ const JoinPage = () => {
     email: "",
     name: "",
     password: "",
+    passwordCheck: "",
   });
+  const [isEmailValid, setIsEmailValid] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,17 +20,39 @@ const JoinPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isEmailValid) {
+      alert("이메일 중복 체크를 해주세요!");
+      return;
+    }
+    if (member.password !== member.passwordCheck) {
+      alert("비밀번호가 일치하지 않습니다!");
+      return;
+    }
     axios
       .post("http://localhost:8083/api/member/join", member)
       .then((res) => {
         console.log(res);
         alert("회원가입 완료!");
-        // 회원가입 완료 후 로그인 페이지로 이동
         navigate("/member/login");
       })
       .catch((error) => {
         console.log(error);
         alert("회원가입 실패!");
+      });
+  };
+
+  const handleEmailCheck = (email) => {
+    axios
+      .get(`http://localhost:8083/api/member/check-email?email=${email}`)
+      .then((res) => {
+        console.log(res);
+        if (res.data.result === true) {
+          alert("중복된 이메일입니다!");
+          setIsEmailValid(false);
+        } else {
+          alert("사용 가능한 이메일입니다!");
+          setIsEmailValid(true);
+        }
       });
   };
 
@@ -38,17 +62,23 @@ const JoinPage = () => {
       <h1>회원가입 페이지</h1>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
+          type="email"
           name="email"
           placeholder="이메일"
           onChange={handleChange}
+          required
         />
+        &nbsp;
+        <button type="button" onClick={() => handleEmailCheck(member.email)}>
+          중복체크
+        </button>
         <br />
         <input
           type="text"
           name="name"
           placeholder="이름"
           onChange={handleChange}
+          required
         />
         <br />
         <input
@@ -56,6 +86,15 @@ const JoinPage = () => {
           name="password"
           placeholder="비밀번호"
           onChange={handleChange}
+          required
+        />
+        <br />
+        <input
+          type="password"
+          name="passwordCheck"
+          placeholder="비밀번호 확인"
+          onChange={handleChange}
+          required
         />
         <br />
         <br />

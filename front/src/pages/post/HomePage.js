@@ -1,14 +1,12 @@
 import React from "react";
 import Header from "../../components/layouts/Header";
-import ListComponent from "../../components/post/ListComponent";
 
 const HomePage = () => {
   return (
     <div>
       <Header />
       <main>
-        <h1>게시판</h1>
-        <ListComponent />
+        <h1>환영합니다! Post 게시판입니다</h1>
       </main>
     </div>
   );

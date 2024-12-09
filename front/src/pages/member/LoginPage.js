@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../slices/loginSlice";
 
-// api post http://localhost:8083/api/member/login
 const LoginPage = () => {
   const [member, setMember] = useState({
     email: "",
@@ -24,7 +23,10 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8083/api/member/login", member)
+      // 쿠키 허용
+      .post("http://localhost:8083/api/member/login", member, {
+        withCredentials: true,
+      })
       .then((res) => {
         // 로그인 성공 시 Redux store에 저장
         dispatch(
@@ -34,11 +36,12 @@ const LoginPage = () => {
           })
         );
         alert("로그인 성공!");
-        navigate("/");
+        navigate("/post/list");
       })
       .catch((error) => {
         // 에러 처리
         console.error("Login failed:", error);
+        alert("로그인 실패");
       });
   };
 
@@ -48,11 +51,12 @@ const LoginPage = () => {
       <h1>로그인 페이지</h1>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
+          type="email"
           placeholder="이메일"
           name="email"
           onChange={handleChange}
           autoComplete="username"
+          required
         />{" "}
         <br />
         <input
@@ -61,6 +65,7 @@ const LoginPage = () => {
           name="password"
           onChange={handleChange}
           autoComplete="current-password"
+          required
         />{" "}
         <br />
         <br />

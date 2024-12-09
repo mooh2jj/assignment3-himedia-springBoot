@@ -34,6 +34,7 @@ const Header = () => {
         }}
       >
         <Link to="/">Home</Link>
+        {email ? <Link to="/post/list">목록</Link> : <></>}
         {email ? (
           <Link to="/post/create">등록</Link>
         ) : (
@@ -52,9 +53,12 @@ const Header = () => {
             <Link to="/member/login">로그인</Link>
           </>
         ) : (
-          <Link to="#" onClick={handleLogout}>
-            로그아웃
-          </Link>
+          <>
+            <span style={{ color: "#666" }}>환영합니다, {email}님!</span>
+            <Link to="#" onClick={handleLogout}>
+              로그아웃
+            </Link>
+          </>
         )}
       </nav>
     </header>

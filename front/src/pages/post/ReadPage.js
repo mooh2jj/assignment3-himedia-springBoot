@@ -26,7 +26,7 @@ const ReadPage = () => {
   const handleDelete = () => {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
       axiosInstance.delete(`/post/${id}`).then((res) => {
-        navigate("/");
+        navigate("/post/list");
       });
     }
   };
@@ -72,6 +72,7 @@ const ReadPage = () => {
           <p>수정일: {post.modifiedAt}</p>
           <div>
             <button onClick={handleEdit}>수정</button>
+            &nbsp;
             <button onClick={handleDelete}>삭제</button>
           </div>
         </>
