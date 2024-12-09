@@ -1,8 +1,11 @@
 package com.dsg.postproj.service;
 
 import com.dsg.postproj.dto.PostDTO;
+import com.dsg.postproj.entity.Member;
 import com.dsg.postproj.entity.Post;
+import com.dsg.postproj.repository.MemberRepository;
 import com.dsg.postproj.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
+    private final MemberRepository memberRepository;
     private final PostRepository postRepository;
 
     @Transactional(readOnly = true)
@@ -34,10 +38,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void create(PostDTO postDto) {
+    public void create(PostDTO postDto, String email) {
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원이 없습니다. email=" + email));
+
         Post post = Post.builder()
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
+                .member(member)
                 .build();
 
         postRepository.save(post);

@@ -23,7 +23,7 @@ public interface PostService {
 
     PostDTO getOne(Long id);
 
-    void create(PostDTO postDto);
+    void create(PostDTO postDto, String email);
 
     void update(Long id, @Valid PostDTO postDto);
 

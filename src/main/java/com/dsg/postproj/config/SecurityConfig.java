@@ -30,7 +30,7 @@ import java.util.Arrays;
 @Log4j2
 @RequiredArgsConstructor
 @EnableMethodSecurity  // @PreAuthorize, @Secured, @RolesAllowed 어노테이션을 사용하기 위해 필요
-public class CustomSecurityConfig {
+public class SecurityConfig {
 
     private final JWTCheckFilter jwtCheckFilter;
 
@@ -48,7 +48,7 @@ public class CustomSecurityConfig {
         http.authorizeHttpRequests(
                 authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/api/member/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/post/**")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("/api/post/**")).permitAll()
                         .anyRequest().authenticated()
         );
 

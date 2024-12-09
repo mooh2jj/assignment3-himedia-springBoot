@@ -1,17 +1,21 @@
 package com.dsg.postproj.controller;
 
+import com.dsg.postproj.dto.MemberDTO;
 import com.dsg.postproj.dto.PostDTO;
 import com.dsg.postproj.service.PostService;
 
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
 @RestController
@@ -30,15 +34,19 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody PostDTO postDto) {
-        postService.create(postDto);
-        return ResponseEntity.ok(Map.of("message", "created"));
+    public ResponseEntity<Map<String, Object>> create(
+            @Valid @RequestBody PostDTO postDto,
+            @AuthenticationPrincipal MemberDTO memberDTO
+    ) {
+        log.info("post create memberDTO = {}", memberDTO);
+        postService.create(postDto, memberDTO.getEmail());
+        return ResponseEntity.ok(Map.of("result", "created"));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @Valid @RequestBody PostDTO postDto) {
         postService.update(id, postDto);
-        return ResponseEntity.ok(Map.of("message", "updated"));
+        return ResponseEntity.ok(Map.of("result", "updated"));
     }
 
     @DeleteMapping("/{id}")
