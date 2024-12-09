@@ -7,6 +7,7 @@ import com.dsg.postproj.service.MemberService;
 import com.dsg.postproj.util.CookieUtil;
 import com.dsg.postproj.util.JWTUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class MemberController {
 
 
     @PostMapping("/join")
-    public ResponseEntity<Map<String, Object>> signup(@RequestBody JoinDTO joinDTO) {
+    public ResponseEntity<Map<String, Object>> signup(@Valid @RequestBody JoinDTO joinDTO) {
         memberService.join(joinDTO);
         return ResponseEntity.ok(Map.of("result", "success"));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
+    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse response) {
         Map<String, Object> loginClaims = memberService.login(loginDTO.getEmail(), loginDTO.getPassword());
 
         CookieUtil.setTokenCookie(response, "refreshToken", (String)loginClaims.get("refreshToken"), jwtProps.getRefreshTokenExpirationPeriod()); // 1day

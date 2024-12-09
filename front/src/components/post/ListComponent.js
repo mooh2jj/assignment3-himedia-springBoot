@@ -12,24 +12,15 @@ const ListComponent = () => {
     });
   }, []);
 
-  const handleDelete = (id) => {
-    axios.delete(`http://localhost:8083/api/post/${id}`).then((res) => {
-      setPosts(posts.filter((post) => post.id !== id));
-    });
-  };
-
   return (
     <>
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
-            <Link to={`/post/${post.id}`}>{post.title}</Link> | {post.author} |{" "}
-            {post.createdAt} | {post.updatedAt}
-            <Link to={`/post/edit/${post.id}`}>
-              <button>수정</button>
+            <Link to={`/post/${post.id}`}>
+              {post.title} | {post.author} | {post.createdAt} |{" "}
+              {post.modifiedAt}
             </Link>
-            &nbsp;
-            <button onClick={() => handleDelete(post.id)}>삭제</button>
           </li>
         ))}
       </ul>
