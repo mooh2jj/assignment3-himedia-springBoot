@@ -17,7 +17,8 @@ public interface PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .author(post.getMember().getEmail())
-//                .createdDate(post.get)
+                .createdAt(post.getCreatedAt())
+                .modifiedAt(post.getModifiedAt())
                 .build();
     }
 

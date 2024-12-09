@@ -23,7 +23,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<PostDTO>> list() {
         return ResponseEntity.ok(postService.list());
     }
