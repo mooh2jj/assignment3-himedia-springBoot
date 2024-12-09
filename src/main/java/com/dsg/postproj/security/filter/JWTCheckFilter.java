@@ -42,7 +42,6 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true;
         }
 
-
         // Swagger UI 경로 제외 설정
         if (path.startsWith("/swagger-ui/") || path.startsWith("/v3/api-docs")) {
             return true;
@@ -61,7 +60,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true;
         }
 
-        if(path.startsWith("/api/post/list")) {
+        if (path.startsWith("/api/post/list")) {
             return true;
         }
 
@@ -75,13 +74,6 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         log.info("..................................................");
 
         String autHeaderStr = request.getHeader("Authorization");
-        // csrf token 확인
-//        CsrfToken csrfToken = null;
-
-//        if (request.getAttribute("csrfToken") != null) {
-//            csrfToken = (CsrfToken) request.getAttribute("csrfToken");
-//        }
-//        log.info("csrfToken: {}", csrfToken);
 
         try {
             // Bearer accessToken 형태로 전달되므로 Bearer 제거
@@ -97,7 +89,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             String email = (String) claims.get("email");
             String password = (String) claims.get("password");
             String name = (String) claims.get("name");
-            List<String> roleNames = (List<String>) claims.get("roleNames");
+            List<String> roleNames = (List<String>) claims.get("roles");
 
             MemberDTO memberDTO = new MemberDTO(email, password, name, roleNames);
 

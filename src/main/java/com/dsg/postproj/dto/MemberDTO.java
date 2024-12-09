@@ -37,9 +37,9 @@ public class MemberDTO extends User {
         Map<String, Object> dataMap = new HashMap<>();
 
         dataMap.put("email", this.email);
-        dataMap.put("password", this.password);
+        dataMap.put("password", this.password); // password 꼭 보내줘야 함. 안보내면 null로 들어감 jwt validation에서 에러남
         dataMap.put("name", this.name);
-        dataMap.put("roleNames", this.roleNames);
+        dataMap.put("roles", this.roleNames);
 
         return dataMap;
     }
