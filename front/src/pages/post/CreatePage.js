@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/layouts/Header";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initPost = {
   title: "",
@@ -12,6 +13,8 @@ const CreatePage = () => {
   const navigate = useNavigate();
 
   const [post, setPost] = useState(initPost);
+
+  const { exceptionHandle } = useCustomLogin();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +28,7 @@ const CreatePage = () => {
       .catch((err) => {
         console.log(err);
         alert("게시글 등록 실패");
+        exceptionHandle(err);
       });
   };
 
@@ -53,6 +57,7 @@ const CreatePage = () => {
           onChange={handleChange}
           required
         />
+        <br />
         <br />
         <button type="submit">등록</button>
       </form>

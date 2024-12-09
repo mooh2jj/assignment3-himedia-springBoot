@@ -5,7 +5,7 @@ import { logout } from "../../slices/loginSlice";
 import axiosInstance from "../../api/axiosInstance";
 
 const Header = () => {
-  const { email } = useSelector((state) => state.loginSlice);
+  const { email, roles } = useSelector((state) => state.loginSlice);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -35,14 +35,12 @@ const Header = () => {
       >
         <Link to="/">Home</Link>
         {email ? <Link to="/post/list">목록</Link> : <></>}
-        {email ? (
+        {roles.includes("ADMIN") ? (
           <Link to="/post/create">등록</Link>
         ) : (
           <Link
             to="#"
-            onClick={() =>
-              alert("로그인하지 않은 상태에서는 등록할 수 없습니다!")
-            }
+            onClick={() => alert("관리자가 아니면 등록할 수 없습니다!")}
           >
             등록
           </Link>
@@ -54,7 +52,10 @@ const Header = () => {
           </>
         ) : (
           <>
-            <span style={{ color: "#666" }}>환영합니다, {email}님!</span>
+            <span style={{ color: "#666" }}>
+              환영합니다, {email}({roles.includes("ADMIN") ? "관리자" : "회원"})
+              님!
+            </span>
             <Link to="#" onClick={handleLogout}>
               로그아웃
             </Link>

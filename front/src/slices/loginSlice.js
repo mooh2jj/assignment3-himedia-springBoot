@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initState = {
   email: "",
+  roles: [],
   accessToken: "",
 };
 
@@ -11,7 +12,7 @@ const loginSlice = createSlice({
   reducers: {
     login: (state, action) => {
       console.log("login: {}", action.payload);
-      const payload = action.payload; // {email, pw로 구성}
+      const payload = action.payload; // {email, roles, accessToken로 구성}
       return { ...payload }; // 새로운 상태
     },
     logout: (state, action) => {

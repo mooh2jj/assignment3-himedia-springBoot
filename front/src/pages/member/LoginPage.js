@@ -31,7 +31,8 @@ const LoginPage = () => {
         // 로그인 성공 시 Redux store에 저장
         dispatch(
           login({
-            email: member.email,
+            email: res.data.email,
+            roles: res.data.roles,
             accessToken: res.data.accessToken, // API 응답에서 토큰을 받아온다고 가정
           })
         );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/layouts/Header";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const ReadPage = () => {
   const { id } = useParams();
@@ -12,6 +13,8 @@ const ReadPage = () => {
     title: "",
     content: "",
   });
+
+  const { exceptionHandle } = useCustomLogin();
 
   useEffect(() => {
     axiosInstance.get(`/post/${id}`).then((res) => {
@@ -25,9 +28,14 @@ const ReadPage = () => {
 
   const handleDelete = () => {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-      axiosInstance.delete(`/post/${id}`).then((res) => {
-        navigate("/post/list");
-      });
+      axiosInstance
+        .delete(`/post/${id}`)
+        .then((res) => {
+          navigate("/post/list");
+        })
+        .catch((err) => {
+          exceptionHandle(err);
+        });
     }
   };
 
@@ -45,17 +53,22 @@ const ReadPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axiosInstance.put(`/post/${id}`, editedPost).then((res) => {
-      axiosInstance.get(`/post/${id}`).then((res) => {
-        setPost(res.data);
-        setEditedPost({
-          title: res.data.title,
-          content: res.data.content,
+    axiosInstance
+      .put(`/post/${id}`, editedPost)
+      .then((res) => {
+        axiosInstance.get(`/post/${id}`).then((res) => {
+          setPost(res.data);
+          setEditedPost({
+            title: res.data.title,
+            content: res.data.content,
+          });
+          setIsEditing(false);
+          alert("수정 완료!");
         });
-        setIsEditing(false);
-        alert("수정 완료!");
+      })
+      .catch((err) => {
+        exceptionHandle(err);
       });
-    });
   };
 
   return (
