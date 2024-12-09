@@ -25,7 +25,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         String jsonStr = objectMapper.writeValueAsString(Map.of("error", "ERROR_ACCESSDENIED"));
 
         response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setStatus(HttpStatus.FORBIDDEN.value()); // 403
 
         PrintWriter printWriter = response.getWriter();
         printWriter.println(jsonStr);

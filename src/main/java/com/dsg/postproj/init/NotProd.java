@@ -31,7 +31,7 @@ public class NotProd {
             log.info("init data start...");
 
             if(memberRepository.count() > 0 || postRepository.count() > 0) {
-                log.info("init data already exists.");
+                log.info("init data already exists...");
                 return;
             }
             LongStream.rangeClosed(1, 5).forEach(i -> {

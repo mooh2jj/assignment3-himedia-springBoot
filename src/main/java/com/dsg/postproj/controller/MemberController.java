@@ -71,7 +71,7 @@ public class MemberController {
             CookieUtil.setNewRefreshTokenCookie(response, "refreshToken", refreshToken);
         }
 
-        return Map.of("token new access", newAccessToken);
+        return Map.of("newAccessToken", newAccessToken);
     }
 
 

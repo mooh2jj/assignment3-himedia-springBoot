@@ -122,6 +122,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             String msg = objectMapper.writeValueAsString(Map.of("error", "ERROR_ACCESS_TOKEN"));
 
             response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
             PrintWriter printWriter = response.getWriter();
             printWriter.println(msg);
             printWriter.close();
