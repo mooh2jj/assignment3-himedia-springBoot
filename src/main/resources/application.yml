@@ -31,3 +31,9 @@ logging:
     org.hibernate.SQL: debug # Hibernate? SQL? ??
     org.hibernate.orm.jdbc.bind: trace # Hibernate? SQL ???? ??
     org.springframework.transaction.interceptor: trace # Hibernate? SQL ???? ??
+
+
+jwt:
+  secret-key: 1234567890123456789012345678901234567890123456789012345678901234
+  access-token-expiration-period: 5   # 5분
+  refresh-token-expiration-period: 1440  # 24시간 60 * 24 = 1440분
