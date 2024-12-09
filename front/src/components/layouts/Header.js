@@ -18,9 +18,9 @@ const Header = () => {
         }}
       >
         <Link to="/">Home</Link>
-        <Link to="/create">등록</Link>
-        <Link to="/join">회원가입</Link>
-        <Link to="/login">로그인</Link>
+        <Link to="/post/create">등록</Link>
+        <Link to="/member/join">회원가입</Link>
+        <Link to="/member/login">로그인</Link>
       </nav>
     </header>
   );

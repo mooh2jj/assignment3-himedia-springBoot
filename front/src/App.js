@@ -13,10 +13,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:id" element={<ReadPage />} />
-        <Route path="/create" element={<CreatePage />} />
-        <Route path="/edit/:id" element={<EditPage />} />
-        <Route path="/join" element={<JoinPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/post/create" element={<CreatePage />} />
+        <Route path="/post/edit/:id" element={<EditPage />} />
+        <Route path="/member/join" element={<JoinPage />} />
+        <Route path="/member/login" element={<LoginPage />} />
         {/* 나머지 404 */}
         <Route path="*" element={<div>404</div>} />
       </Routes>
