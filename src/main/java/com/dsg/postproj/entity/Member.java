@@ -1,6 +1,7 @@
 package com.dsg.postproj.entity;
 
 import com.dsg.postproj.enums.MemberRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    @JsonIgnore
     private String password;
 
     @ElementCollection(fetch = FetchType.LAZY)

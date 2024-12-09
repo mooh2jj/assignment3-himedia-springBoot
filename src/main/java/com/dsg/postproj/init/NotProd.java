@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.stream.LongStream;
@@ -19,6 +20,7 @@ import java.util.stream.LongStream;
 @RequiredArgsConstructor
 public class NotProd {
 
+    private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
 
@@ -37,10 +39,10 @@ public class NotProd {
                 Member member = Member.builder()
                         .email("user" + i + "@aaa.com")
                         .name("nick_" + i)
-                        .password("1111")
+                        .password(passwordEncoder.encode("1111"))
                         .build();
 
-                member.addRole(MemberRole.ADMIN);
+                member.addRole(MemberRole.USER);
 
                 memberRepository.save(member);
 
@@ -51,10 +53,10 @@ public class NotProd {
                 Member member = Member.builder()
                         .email("user" + i + "@aaa.com")
                         .name("nick_" + i)
-                        .password("1111")
+                        .password(passwordEncoder.encode("1111"))
                         .build();
 
-                member.addRole(MemberRole.USER);
+                member.addRole(MemberRole.ADMIN);
 
                 memberRepository.save(member);
             });

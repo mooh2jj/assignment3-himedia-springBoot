@@ -1,6 +1,6 @@
 package com.dsg.postproj.controller;
 
-import com.dsg.postproj.dto.PostDto;
+import com.dsg.postproj.dto.PostDTO;
 import com.dsg.postproj.service.PostService;
 
 
@@ -20,23 +20,23 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> list() {
+    public ResponseEntity<List<PostDTO>> list() {
         return ResponseEntity.ok(postService.list());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getOne(@PathVariable Long id) {
+    public ResponseEntity<PostDTO> getOne(@PathVariable Long id) {
         return ResponseEntity.ok(postService.getOne(id));
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody PostDto postDto) {
+    public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody PostDTO postDto) {
         postService.create(postDto);
         return ResponseEntity.ok(Map.of("message", "created"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @Valid @RequestBody PostDto postDto) {
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @Valid @RequestBody PostDTO postDto) {
         postService.update(id, postDto);
         return ResponseEntity.ok(Map.of("message", "updated"));
     }

@@ -1,6 +1,6 @@
 package com.dsg.postproj.service;
 
-import com.dsg.postproj.dto.PostDto;
+import com.dsg.postproj.dto.PostDTO;
 import com.dsg.postproj.entity.Post;
 import com.dsg.postproj.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,21 +20,21 @@ public class PostServiceImpl implements PostService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<PostDto> list() {
+    public List<PostDTO> list() {
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(this::toDto).toList();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public PostDto getOne(Long id) {
+    public PostDTO getOne(Long id) {
         return postRepository.findById(id)
                 .map(this::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
     }
 
     @Override
-    public void create(PostDto postDto) {
+    public void create(PostDTO postDto) {
         Post post = Post.builder()
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void update(Long id, PostDto postDto) {
+    public void update(Long id, PostDTO postDto) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 

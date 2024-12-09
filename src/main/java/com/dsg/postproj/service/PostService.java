@@ -1,6 +1,6 @@
 package com.dsg.postproj.service;
 
-import com.dsg.postproj.dto.PostDto;
+import com.dsg.postproj.dto.PostDTO;
 import com.dsg.postproj.entity.Post;
 import jakarta.validation.Valid;
 
@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface PostService {
 
-    List<PostDto> list();
+    List<PostDTO> list();
 
     // entity -> dto로 변환하는 메서드
-    default PostDto toDto(Post post) {
-        return PostDto.builder()
+    default PostDTO toDto(Post post) {
+        return PostDTO.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
@@ -21,11 +21,11 @@ public interface PostService {
                 .build();
     }
 
-    PostDto getOne(Long id);
+    PostDTO getOne(Long id);
 
-    void create(PostDto postDto);
+    void create(PostDTO postDto);
 
-    void update(Long id, @Valid PostDto postDto);
+    void update(Long id, @Valid PostDTO postDto);
 
     void delete(Long id);
 }
