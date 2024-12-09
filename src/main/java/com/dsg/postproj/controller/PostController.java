@@ -2,12 +2,15 @@ package com.dsg.postproj.controller;
 
 import com.dsg.postproj.dto.PostDto;
 import com.dsg.postproj.service.PostService;
+
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
@@ -17,7 +20,30 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public List<PostDto> list() {
-        return postService.list();
+    public ResponseEntity<List<PostDto>> list() {
+        return ResponseEntity.ok(postService.list());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDto> getOne(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.getOne(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody PostDto postDto) {
+        postService.create(postDto);
+        return ResponseEntity.ok(Map.of("message", "created"));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @Valid @RequestBody PostDto postDto) {
+        postService.update(id, postDto);
+        return ResponseEntity.ok(Map.of("message", "updated"));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        postService.delete(id);
+        return ResponseEntity.ok(Map.of("message", "deleted"));
     }
 }

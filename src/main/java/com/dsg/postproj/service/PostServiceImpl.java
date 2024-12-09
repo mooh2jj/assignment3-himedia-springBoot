@@ -24,4 +24,35 @@ public class PostServiceImpl implements PostService {
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(this::toDto).toList();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public PostDto getOne(Long id) {
+        return postRepository.findById(id)
+                .map(this::toDto)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+    }
+
+    @Override
+    public void create(PostDto postDto) {
+        Post post = Post.builder()
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .build();
+
+        postRepository.save(post);
+    }
+
+    @Override
+    public void update(Long id, PostDto postDto) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        post.update(postDto.getTitle(), postDto.getContent());
+    }
+
+    @Override
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
 }

@@ -2,6 +2,7 @@ package com.dsg.postproj.service;
 
 import com.dsg.postproj.dto.PostDto;
 import com.dsg.postproj.entity.Post;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -19,4 +20,12 @@ public interface PostService {
 //                .createdDate(post.get)
                 .build();
     }
+
+    PostDto getOne(Long id);
+
+    void create(PostDto postDto);
+
+    void update(Long id, @Valid PostDto postDto);
+
+    void delete(Long id);
 }
