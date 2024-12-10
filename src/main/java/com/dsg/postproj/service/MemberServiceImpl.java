@@ -72,9 +72,8 @@ public class MemberServiceImpl implements MemberService {
 
         Map<String, Object> claims = memberDTO.getClaims();
 
-        // access token, refreshToken 생성
+        // access token 생성
         claims.put("accessToken", jwtUtil.generateToken(claims, jwtProps.getAccessTokenExpirationPeriod()));
-        claims.put("refreshToken", jwtUtil.generateToken(claims, jwtProps.getRefreshTokenExpirationPeriod()));
 
         return claims;
     }

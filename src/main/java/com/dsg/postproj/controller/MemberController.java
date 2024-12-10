@@ -43,7 +43,9 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse response) {
         Map<String, Object> loginClaims = memberService.login(loginDTO.getEmail(), loginDTO.getPassword());
 
-        CookieUtil.setTokenCookie(response, "refreshToken", (String)loginClaims.get("refreshToken"), jwtProps.getRefreshTokenExpirationPeriod()); // 1day
+        // refreshToken 생성
+        String refreshToken = jwtUtil.generateToken(loginClaims, jwtProps.getRefreshTokenExpirationPeriod());
+        CookieUtil.setTokenCookie(response, "refreshToken", refreshToken, jwtProps.getRefreshTokenExpirationPeriod()); // 1day
         return ResponseEntity.ok(loginClaims);
     }
 
