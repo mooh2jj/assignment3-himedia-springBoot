@@ -6,9 +6,11 @@ import com.dsg.postproj.entity.Member;
 import com.dsg.postproj.enums.MemberRole;
 import com.dsg.postproj.props.JwtProps;
 import com.dsg.postproj.repository.MemberRepository;
+import com.dsg.postproj.security.CustomUserDetailService;
 import com.dsg.postproj.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
+    private final CustomUserDetailService customUserDetailService;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -60,15 +63,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Map<String, Object> login(String email, String password) {
 
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(email);
 
-        if (!passwordEncoder.matches(password, member.getPassword())) {
+        MemberDTO memberDTO = (MemberDTO) userDetails;
+
+        if (!passwordEncoder.matches(password, memberDTO.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-
-        MemberDTO memberDTO = new MemberDTO(member.getEmail(), member.getPassword(), member.getName(),
-                member.getMemberRoleList().stream().map(Enum::name).toList());
 
         Map<String, Object> claims = memberDTO.getClaims();
 
